@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rider_splash_screen"
+    android:padding="16dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_phone_sign_in"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white"
+            android:text="Sign In With Phone"
+            android:textColor="@android:color/black"
+            android:drawableStart="@drawable/ic_baseline_phone_24"
+            ></Button>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_google_sign_in"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white"
+            android:text="Sign In With Email"
+            android:textColor="@android:color/black"
+            android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            ></Button>
+
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

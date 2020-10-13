@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.nirprojects.uberclone"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    //GoogleMaps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+
+    //Firebase-Auth
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
+
+    //Firebase-UI-Auth
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
+
+    //Firebase database (realtime..)
+    implementation 'com.google.firebase:firebase-database:19.3.0'
+
+    //Firebase Storage
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+
+    //Glide
+    //Glide is a fast and efficient open source media management and image loading framework for Android that wraps media decoding,
+    //memory and disk caching, and resource pooling into a simple and easy to use interface.
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //Java-RX
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+
+    //Material
+    //Material Components for Android (MDC-Android) help developers execute Material Design. Developed by a core team of engineers and UX designers at Google,
+    // these components enable a reliable development workflow to build beautiful and functional Android apps.
+    implementation 'com.google.android.material:material:1.1.0'
+
+    //ButterKnife
+    //Android Butterknife is a view binding tool that uses annotations to generate boilerplate code for us.
+    // ButterKnife is developed by Jake Wharton at Square and is essentially used to save typing repetitive lines of code
+    // ..like findViewById(R.id.view) when dealing with views, thus making our code look a lot cleaner.
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+
+    //Dexter
+    //Dexter is an Android library that simplifies the process of requesting permissions at runtime.
+    implementation 'com.karumi:dexter:6.1.2'
+
+    //GeoFire
+    //GeoFire is an open-source library for Android that allows you to store and query a set of keys based on their geographic location.
+    //At its heart, GeoFire simply stores locations with string keys. Its main benefit however,
+    // is the possibility of querying keys within a given geographic area - all in realtime. --Stores within Firebase-Realtime-DB.
+    implementation 'com.firebase:geofire-android:3.0.0'
+
+
+    //Circle Image-UI..
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+}
