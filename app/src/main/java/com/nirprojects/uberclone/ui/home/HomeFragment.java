@@ -54,8 +54,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.nirprojects.uberclone.Callback.IFirebaseDriverInfoListener;
-import com.nirprojects.uberclone.Callback.IfirebaseFailedListener;
 import com.nirprojects.uberclone.Common;
 import com.nirprojects.uberclone.R;
 
@@ -79,14 +77,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
 
-    //Load Driver
-    private double instance = 1.0; //default radius in km
-    private static final double LIMIT_RANGE = 10.0; // in km..
-    private Location previousLocation,currentLocation; //will be used to calculate distance..
-
-    //Listeners
-    IFirebaseDriverInfoListener iFirebaseDriverInfoListener;
-    IfirebaseFailedListener ifirebaseFailedListener;
+    private boolean isFirstTime=true;
 
     //Online system
     DatabaseReference onlineRef, currentUserRef, driversLocationRef; //holds ref to db-specific data
@@ -94,8 +85,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     ValueEventListener onlineValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists() && currentUserRef !=null )
+            if (dataSnapshot.exists() && currentUserRef !=null ) {
                 currentUserRef.onDisconnect().removeValue(); //applies listener to remove the value at this(meaning the ref to db place) location when the client disconnects
+            }
         }
 
         @Override
@@ -145,14 +137,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // here to request the missing permissions, and then overriding
-            Snackbar.make(getView(),getString(R.string.permission_require),Snackbar.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),getString(R.string.permission_require), Toast.LENGTH_SHORT).show();
+            //Snackbar.make(getView(),getString(R.string.permission_require),Snackbar.LENGTH_SHORT).show();
             return;
         }
 
         locationRequest = new LocationRequest();
-        locationRequest.setSmallestDisplacement(10f);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(3000);
+        locationRequest.setSmallestDisplacement(50f); //50 meters...
+        locationRequest.setInterval(15000); //15 secs intervals..
+        locationRequest.setFastestInterval(10000);//10 sec..
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         locationCallback = new LocationCallback() {
@@ -191,8 +184,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                 public void onComplete(String key, DatabaseError error) {
                                     if (error != null)
                                         Snackbar.make(mapFragment.getView(), error.getMessage(), Snackbar.LENGTH_LONG).show(); //Like a toast msg..
-                                    else
-                                        Snackbar.make(mapFragment.getView(), "You're Online", Snackbar.LENGTH_LONG).show(); //Like a toast msg..
                                 }
                             });
 
@@ -213,6 +204,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
+
+        //Requests location updates with a callback on the specified Looper thread.
+        //note: This call will keep the Google Play services connection active,
+        // so need to make sure to call removeLocationUpdates(LocationCallback) when you no longer need it,
+        //Callbacks for LocationCallback will be made on the specified thread,
+        // which must already be a prepared looper thread.
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
     }
@@ -280,5 +277,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         } catch (Resources.NotFoundException e){
             Log.d(TAG,e.getMessage());
         }
+
+        Snackbar.make(mapFragment.getView(), "You're Online", Snackbar.LENGTH_LONG).show(); //Like a toast msg..
     }
 }
