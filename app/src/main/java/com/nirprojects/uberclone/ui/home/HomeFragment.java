@@ -98,6 +98,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroy() { //when fragment is destroyed, we dont want any live-updates...
+        Log.d(TAG,"onDestroy()");
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         geoFire.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid());
         onlineRef.removeEventListener(onlineValueEventListener);
@@ -106,18 +107,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onResume() {
+        Log.d(TAG,"onResume()");
         super.onResume();
         registerOnlineSystem();
     }
 
     private void registerOnlineSystem() {
+        Log.d(TAG,"registerOnlineSystem()");
         //Add a listener for changes in the data at this location. Each time time the data changes, your listener will be called with an immutable snapshot of the data.
         //in our case, the listener below is initialized to remove DriversLocation/SpecificCityName/userId->(delete from here everything..)
         onlineRef.addValueEventListener(onlineValueEventListener); //apply the custom-listner from above..
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG,"onCreateView()");
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -131,7 +134,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
     private void init() {
-
+        Log.d(TAG,"init()");
         //grab relevant refs to db..
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
 
@@ -151,6 +154,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) { //invoked once location is retreived.
+                Log.d(TAG,"onLocationResult()");
                 super.onLocationResult(locationResult);
 
                 LatLng newPosition = new LatLng(locationResult.getLastLocation().getLatitude(),
@@ -217,6 +221,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG,"onMapReady()");
         mMap = googleMap;
 
         //Check device-permission for locations and etc...
